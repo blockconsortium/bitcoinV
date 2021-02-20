@@ -176,7 +176,9 @@ public:
         vSeeds.emplace_back("seed6.bitcoinv.org");
         vSeeds.emplace_back("seed7.bitcoinv.org");
         vSeeds.emplace_back("seed8.bitcoinv.org");
-        vSeeds.emplace_back("seed9.bitcoinv.org");
+        vSeeds.emplace_back("213.232.124.121");
+        vSeeds.emplace_back("18.196.22.222");
+        vSeeds.emplace_back("35.179.90.194");
 
 
 
@@ -200,14 +202,15 @@ public:
                 {0,     uint256S("000000004c2738ff52ee6dc039d4fde2f3292fed9afa9d712f895d7094f8d350")},
                 {1,     uint256S("000000000128abeaa1fac3d89766eb088cb1da625f632ceedc48e555009ff15b")},
                 {2016,  uint256S("00000000006dd81cd03a5a880255666511e1d462286d96537eafffb60dfa6c84")},
+                {27000,  uint256S("00000000000001497b89aaf4defb9f3f88200fc4c915d5ff317906537cd554c4")},
             }
         };
 
         chainTxData = ChainTxData{
-            // type     getchaintxstats    in debug console
-            /* nTime    */ 1583332082,
-            /* nTxCount */ 10497,
-            /* dTxRate  */ 0.001056972823845204
+            // Data from rpc: getchaintxstats
+            /* nTime    */ 1613795898,
+            /* nTxCount */ 38567,
+            /* dTxRate  */ 0.001514298567
         };
 
     }
@@ -337,9 +340,9 @@ public:
 
         chainTxData = ChainTxData{
             // Data from rpc: getchaintxstats 4096 0000000000000037a8cd3e06cd5edbfe9dd1dbcc5dacab279376ef7cfc2b4c75
-            /* nTime    */ 1531929919,
-            /* nTxCount */ 19438708,
-            /* dTxRate  */ 0.626
+            /* nTime    */ 1613795898,
+            /* nTxCount */ 38567,
+            /* dTxRate  */ 0.001514298567
         };
 
     }
