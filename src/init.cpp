@@ -61,6 +61,7 @@
 #include <validation.h>
 
 #include <validationinterface.h>
+#include <variable_block_reward.h>
 #include <walletinitinterface.h>
 
 #include <functional>
@@ -428,6 +429,10 @@ void SetupServerArgs(NodeContext& node)
 #if HAVE_SYSTEM
     argsman.AddArg("-startupnotify=<cmd>", "Execute command on startup.", ArgsManager::ALLOW_ANY, OptionsCategory::OPTIONS);
 #endif
+
+    gArgs.AddArg("-setvbrmultiplier=<n>", "Set the Variable Block Reward (VBR) multiplier for mining. Value <n> will automatically be rounded to the nearest lower power of 2", ArgsManager::ALLOW_ANY, OptionsCategory::OPTIONS);
+
+
 #ifndef WIN32
     argsman.AddArg("-sysperms", "Create new files with system default permissions, instead of umask 077 (only effective with disabled wallet functionality)", ArgsManager::ALLOW_ANY, OptionsCategory::OPTIONS);
 #else
@@ -593,7 +598,7 @@ void SetupServerArgs(NodeContext& node)
 
 std::string LicenseInfo()
 {
-    const std::string URL_SOURCE_CODE = "<https://github.com/bitcoin/bitcoin>";
+    const std::string URL_SOURCE_CODE = "<https://github.com/BitcoinVBR/bitcoinV>";
 
     return CopyrightHolders(strprintf(_("Copyright (C) %i-%i").translated, 2009, COPYRIGHT_YEAR) + " ") + "\n" +
            "\n" +
@@ -1200,6 +1205,10 @@ bool AppInitParameterInteraction(const ArgsManager& args)
         return InitError(_("No proxy server specified. Use -proxy=<ip> or -proxy=<ip:port>."));
     }
 
+    // -setvbrmultiplier=<n>
+    int32_t nMultArg = gArgs.GetArg("-setvbrmultiplier", 1);
+    g_extra_multiply = floor_power_2_vbr(nMultArg);
+	
     return true;
 }
 

@@ -1,10 +1,15 @@
-Bitcoin Core integration/staging tree
+BitcoinV Core integration/staging tree
 =====================================
 
-https://bitcoincore.org
+https://bitcoinvbr.github.io/
 
-What is Bitcoin?
+What is BitcoinV?
 ----------------
+
+BitcoinV aims to be a more decentralized version of Bitcoin. This is accomplished 
+using Satoshi's Missing Link - VBR Decentralization Algorithm. 
+The Variable Block Reward (VBR) feature is the engine behind promoting more 
+decentralization.
 
 Bitcoin is an experimental digital currency that enables instant payments to
 anyone, anywhere in the world. Bitcoin uses peer-to-peer technology to operate
@@ -12,22 +17,22 @@ with no central authority: managing transactions and issuing money are carried
 out collectively by the network. Bitcoin Core is the name of open source
 software which enables the use of this currency.
 
-For more information, as well as an immediately usable, binary version of
+For more information, as well as an immediately useable, binary version of
 the Bitcoin Core software, see https://bitcoincore.org/en/download/, or read the
 [original whitepaper](https://bitcoincore.org/bitcoin.pdf).
 
 License
 -------
 
-Bitcoin Core is released under the terms of the MIT license. See [COPYING](COPYING) for more
+BitcoinV Core is released under the terms of the MIT license. See [COPYING](COPYING) for more
 information or see https://opensource.org/licenses/MIT.
 
 Development Process
 -------------------
 
-The `master` branch is regularly built (see `doc/build-*.md` for instructions) and tested, but it is not guaranteed to be
-completely stable. [Tags](https://github.com/bitcoin/bitcoin/tags) are created
-regularly from release branches to indicate new official, stable release versions of Bitcoin Core.
+The `master` branch is regularly built and tested, but is not guaranteed to be
+completely stable. [Tags](https://github.com/bitcoinVBR/bitcoinV/tags) are created
+regularly to indicate new official, stable release versions of BitcoinV Core.
 
 The https://github.com/bitcoin-core/gui repository is used exclusively for the
 development of the GUI. Its master branch is identical in all monotree

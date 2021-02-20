@@ -47,8 +47,9 @@
 #include <util/system.h>
 #include <util/translation.h>
 #include <validationinterface.h>
+#include <variable_block_reward.h>
 #include <warnings.h>
-
+#include <rpc/blockchain.h>
 #include <string>
 
 #include <boost/algorithm/string/replace.hpp>
@@ -2209,11 +2210,11 @@ bool CChainState::ConnectBlock(const CBlock& block, BlockValidationState& state,
     int64_t nTime3 = GetTimeMicros(); nTimeConnect += nTime3 - nTime2;
     LogPrint(BCLog::BENCH, "      - Connect %u transactions: %.2fms (%.3fms/tx, %.3fms/txin) [%.2fs (%.2fms/blk)]\n", (unsigned)block.vtx.size(), MILLI * (nTime3 - nTime2), MILLI * (nTime3 - nTime2) / block.vtx.size(), nInputs <= 1 ? 0 : MILLI * (nTime3 - nTime2) / (nInputs-1), nTimeConnect * MICRO, nTimeConnect * MILLI / nBlocksTotal);
 
-    CAmount blockReward = nFees + GetBlockSubsidy(pindex->nHeight, chainparams.GetConsensus());
-    if (block.vtx[0]->GetValueOut() > blockReward) {
-        LogPrintf("ERROR: ConnectBlock(): coinbase pays too much (actual=%d vs limit=%d)\n", block.vtx[0]->GetValueOut(), blockReward);
-        return state.Invalid(BlockValidationResult::BLOCK_CONSENSUS, "bad-cb-amount");
-    }
+    //CAmount blockReward = nFees + GetBlockSubsidy(pindex->nHeight, chainparams.GetConsensus());
+    //if (block.vtx[0]->GetValueOut() > blockReward) {
+    //    LogPrintf("ERROR: ConnectBlock(): coinbase pays too much (actual=%d vs limit=%d)\n", block.vtx[0]->GetValueOut(), blockReward);
+    //    return state.Invalid(BlockValidationResult::BLOCK_CONSENSUS, "bad-cb-amount");
+    //}
 
     if (!control.Wait()) {
         LogPrintf("ERROR: %s: CheckQueue failed\n", __func__);
@@ -2234,6 +2235,22 @@ bool CChainState::ConnectBlock(const CBlock& block, BlockValidationState& state,
     }
 
     assert(pindex->phashBlock);
+    // This is where VBR (Variable Block Reward kicks in).
+    bool allowVBR = false;
+    // only allow VBR when difficulty is high or early
+    double diff = GetDifficulty(pindex);
+    if ( diff <=1.0 || diff >= 16000000000.0 )
+    {
+        allowVBR = true;
+    }    
+
+    CAmount subsidyReward = GetBlockSubsidyVBR(pindex->nHeight, chainparams.GetConsensus(), block, allowVBR, false);
+    CAmount blockReward = nFees + subsidyReward;
+    if (block.vtx[0]->GetValueOut() > blockReward)
+        return state.Invalid(BlockValidationResult::BLOCK_CONSENSUS, "bad-cb-amount");
+
+
+
     // add this block to the view's block chain
     view.SetBestBlock(pindex->GetBlockHash());
 
